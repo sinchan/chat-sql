@@ -12,7 +12,8 @@ response schemas.
 I'm providing a single row from each table to enable more accurate responses. For databases that have more variable data,
 a random subset of rows or a summarized data overview with types and example can be passed into the prompt.
 
-![ChatSQL](https://github.com/sinchan/chat-sql/assets/924241/e7404ae2-bb19-4d62-bd31-08410c4d1f00)
+![ChatSQL](https://github.com/sinchan/chat-sql/assets/924241/28b21f4b-4dbe-4195-bc5f-1732bec28461)
+
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
