@@ -19,7 +19,7 @@ const DataDisplay = ({ data }: { data: { [key: string]: string }[] }) => {
   >([]);
 
   useEffect(() => {
-    if (data) {
+    if (data && data.length > 0) {
       setColumns(
         Object.keys(data[0]).map((key) => ({
           title: key,
