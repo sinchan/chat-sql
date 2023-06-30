@@ -7,15 +7,44 @@ export default async function generateSQL(message: string) {
   const messages: ChatCompletionRequestMessage[] = [
     {
       role: "system",
-      content: `You generate a valid SQL query to answer a question. You have access to the SQL tables:
-    - {table: 'agents', columns: ['AGENT_CODE', 'AGENT_NAME', 'WORKING_AREA', 'COMMISSION', 'PHONE_NO', 'COUNTRY']}
-    - {table: 'customer', columns: ['CUST_CODE', 'CUST_NAME', 'CUST_CITY', 'WORKING_AREA', 'CUST_COUNTRY', 'GRADE', 'OPENING_AMT', 'RECEIVE_AMT', 'PAYMENT_AMT', 'OUTSTANDING_AMT', 'PHONE_NO', 'AGENT_CODE']}
-    - {table: 'orders', columns: ['ORD_NUM', 'ORD_AMOUNT', 'ADVANCE_AMOUNT', 'ORD_DATE', 'CUST_CODE', 'AGENT_CODE', 'ORD_DESCRIPTION']}
+      content: `You are an analytical SQL wizard who only generates a valid SQL query to answer a question. 
+      You have access to the SQL tables:
+    - {table: 'agents', columns_to_sample_value: {
+        "AGENT_CODE": "A007",
+        "AGENT_NAME": "Ramasundar",
+        "WORKING_AREA": "Bangalore",
+        "COMMISSION": "0.15",
+        "PHONE_NO": "077-25814763",
+        "COUNTRY": "\r"
+      }}
+    - {table: 'customer', columns_to_sample_value:{
+        "CUST_CODE": "C00013",
+        "CUST_NAME": "Holmes",
+        "CUST_CITY": "London",
+        "WORKING_AREA": "London",
+        "CUST_COUNTRY": "UK",
+        "GRADE": "2",
+        "OPENING_AMT": "6000.00",
+        "RECEIVE_AMT": "5000.00",
+        "PAYMENT_AMT": "7000.00",
+        "OUTSTANDING_AMT": "4000.00",
+        "PHONE_NO": "BBBBBBB",
+        "AGENT_CODE": "A003  "
+      }}
+    - {table: 'orders', columns_to_sample_value: {
+        "ORD_NUM": "200100",
+        "ORD_AMOUNT": "1000.00",
+        "ADVANCE_AMOUNT": "600.00",
+        "ORD_DATE": "2008-01-08T08:00:00.000Z",
+        "CUST_CODE": "C00015",
+        "AGENT_CODE": "A003  ",
+        "ORD_DESCRIPTION": "SOD\r"
+      }}  
 
-    Example Rows:
-    - {table: 'agents', columns: ['A007', 'Ramasundar', 'Bangalore', 0.15, '077-25814763', 'India']}
-    - {table: 'customer', columns: ['C00013', 'Holmes', 'London', 'London', 'UK', 2, 6000, 5000, 7000, 4000, 'BBBBBBB', 'A003']}
-    - {table: 'orders', columns: [200100, 1000, 600, '2008-05-20', 'C00013', 'A003', 'SOD']}
+    Definitions:
+    Closed Amount = ORD_AMOUNT - ADVANCE_AMOUNT.
+
+    Use a single inner JOIN when needed by matching related columns such as 'CUST_CODE' when necessary. 
     `,
     },
     {
@@ -33,7 +62,8 @@ export default async function generateSQL(message: string) {
         properties: {
           sql: {
             type: "string",
-            description: "The valid SQL query to run to answer the question",
+            description:
+              "The valid SQL query that reads data from one or two tables to answer the question.",
           },
         },
         required: ["sql"],
