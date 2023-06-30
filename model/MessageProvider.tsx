@@ -3,6 +3,9 @@ import { createContext, FC, ReactNode, useState } from "react";
 export interface Message {
   sender: "user" | "ChatSQL";
   text: string;
+  data?: { [key: string]: string }[];
+  sql?: string;
+  error?: string;
 }
 
 export interface MessageList {
@@ -32,14 +35,21 @@ export default function MessageProvider({ children }: { children: ReactNode }) {
       sender: "user",
       text: message,
     };
-    const systemStandardMessage: Message = {
-      sender: "ChatSQL",
-      text: "Sorry I’m not ready to answer any questions yet!",
-    };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+
+    const result = await fetch("/api/processMessage", {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    });
+
+    const generatedMessage = await result.json();
+
     setMessages((prevMessages) => [
       ...prevMessages,
-      userMessage,
-      systemStandardMessage,
+      {
+        sender: "ChatSQL",
+        ...generatedMessage,
+      },
     ]);
   };
 
