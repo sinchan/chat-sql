@@ -2,13 +2,17 @@
 # ChatSQL
 
 A chat app that lets users query against a local mysql database called `sample` with the provided schema.
+
 A SQL user needs to be provided as shown in the .env.example file that only has read access to prevent SQL injection and 
 modifications to the DB.
+
+
 SQL is generated using OpenAI's `gpt-3.5-turbo-0613` model to make use of the new function calling capabilities to ensure more reliable 
 response schemas. 
 I'm providing a single row from each table to enable more accurate responses. For databases that have more variable data,
 a random subset of rows or a summarized data overview with types and example can be passed into the prompt.
 
+![ChatSQL](https://github.com/sinchan/chat-sql/assets/924241/e7404ae2-bb19-4d62-bd31-08410c4d1f00)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
