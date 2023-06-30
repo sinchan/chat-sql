@@ -1,6 +1,6 @@
 import { MessageContext } from "@/model/MessageProvider";
-import { useContext } from "react";
-import { styled } from "styled-components";
+import { useContext, useRef, useEffect } from "react";
+import styled from "styled-components";
 import Message from "./Message";
 
 const MessageListContainer = styled.div`
@@ -13,6 +13,20 @@ const MessageListContainer = styled.div`
 
 export default function MessageList() {
   const { messages } = useContext(MessageContext);
+  const bottomRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (bottomRef.current) {
+      // add a delay of 0.2s to allow the message to be rendered
+      setTimeout(() => {
+        bottomRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+          inline: "nearest",
+        });
+      }, 200);
+    }
+  }, [messages]);
 
   console.log("messages", messages);
 
@@ -21,6 +35,7 @@ export default function MessageList() {
       {messages.map((message, index) => (
         <Message key={index} message={message} />
       ))}
+      <div ref={bottomRef} />
     </MessageListContainer>
   );
 }
