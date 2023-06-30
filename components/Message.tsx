@@ -33,22 +33,6 @@ const MessageSQL = styled(MessageText)`
   margin-bottom: 10px;
 `;
 const Message = ({ message }: { message: Message }) => {
-  const [columns, setColumns] = useState<
-    { title: string; dataIndex: string; key: string }[]
-  >([]);
-
-  useEffect(() => {
-    if (message.data) {
-      setColumns(
-        Object.keys(message.data[0]).map((key) => ({
-          title: key,
-          dataIndex: key,
-          key: key,
-        }))
-      );
-    }
-  }, [message]);
-
   return (
     <MessageContainer $sender={message.sender}>
       <MessageSender>{message.sender}</MessageSender>
