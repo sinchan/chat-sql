@@ -3,6 +3,7 @@ import { createCompletion } from "./OpenAICompletion";
 import { get } from "lodash";
 
 export default async function generateSQL(message: string) {
+  //Attempt to handle joins
   const messages: ChatCompletionRequestMessage[] = [
     {
       role: "system",
