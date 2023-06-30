@@ -32,10 +32,10 @@ const MessageInput = () => {
 
   const _sendMessage = async () => {
     if (currentMessage.length === 0) return;
+    setCurrentMessage("");
     setLoading(true);
     await sendMessage(currentMessage);
     setLoading(false);
-    setCurrentMessage("");
   };
 
   return (
@@ -47,6 +47,7 @@ const MessageInput = () => {
         value={currentMessage}
         onPressEnter={_sendMessage}
         placeholder="Number of orders placed in 2023..."
+        disabled={loading}
       />
       <Button type="primary" onClick={_sendMessage} loading={loading}>
         Send

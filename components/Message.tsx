@@ -1,5 +1,7 @@
 import { Message } from "@/model/MessageProvider";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
+import DataDisplay from "./DataDisplay";
 
 const MessageContainer = styled.div<{ $sender: string }>`
   display: flex;
@@ -22,11 +24,41 @@ const MessageText = styled.div`
   font-size: 16px;
 `;
 
+const MessageSQL = styled(MessageText)`
+  background-color: #444;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #fff;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
 const Message = ({ message }: { message: Message }) => {
+  const [columns, setColumns] = useState<
+    { title: string; dataIndex: string; key: string }[]
+  >([]);
+
+  useEffect(() => {
+    if (message.data) {
+      setColumns(
+        Object.keys(message.data[0]).map((key) => ({
+          title: key,
+          dataIndex: key,
+          key: key,
+        }))
+      );
+    }
+  }, [message]);
+
   return (
     <MessageContainer $sender={message.sender}>
       <MessageSender>{message.sender}</MessageSender>
       {message.text && <MessageText>{message.text}</MessageText>}
+      {message.sql && (
+        <MessageSQL>
+          <code>{message.sql}</code>
+        </MessageSQL>
+      )}
+      {message.data && <DataDisplay data={message.data} />}
     </MessageContainer>
   );
 };
