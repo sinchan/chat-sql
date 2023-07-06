@@ -1,7 +1,7 @@
 
 # ChatSQL
 
-A chat app that lets users query against a local mysql database called `sample` with the provided schema.
+A chat app that lets users query against a local mysql database called `sample` with the provided ![schema](https://github.com/sinchan/chat-sql/blob/main/dump.sql).
 
 A SQL user needs to be provided as shown in the .env.example file that only has read access to prevent SQL injection and 
 modifications to the DB.
